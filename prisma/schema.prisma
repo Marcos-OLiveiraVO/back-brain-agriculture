@@ -8,8 +8,8 @@ datasource db {
 }
 
 model producer {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(255)
+  id   Int     @id @default(autoincrement())
+  name String  @db.VarChar(255)
   cnpj String? @db.VarChar(14)
   cpf  String? @db.VarChar(11)
 
@@ -29,9 +29,9 @@ model farm {
   city       String @db.VarChar(255)
   state      String @db.VarChar(255)
 
-  totalArea     Decimal @map("total_area") @db.Decimal(10, 2)
-  arableArea    Decimal @map("arable_area") @db.Decimal(10, 2)
-  vegetableArea Decimal @map("vegetable_area") @db.Decimal(10, 2)
+  totalArea      Decimal @map("total_area") @db.Decimal(10, 2)
+  arableArea     Decimal @map("arable_area") @db.Decimal(10, 2)
+  vegetationArea Decimal @map("vegetation_area") @db.Decimal(10, 2)
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt

@@ -1,0 +1,57 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '@shared/database/prismaService';
+import { Farm } from 'modules/farm/application/entities/farm';
+import { FindFarm } from 'modules/farm/application/interfaces/farmRequest';
+import { IFarmRepository } from 'modules/farm/application/interfaces/IFarmRepository';
+import { FarmMapper } from '../../adapters/mapper/farmMapper';
+import { Crop } from 'modules/farm/application/entities/crop';
+import { Harvest } from 'modules/farm/application/entities/harvest';
+import { HarvestMapper } from '../../adapters/mapper/harvestMapper';
+import { CropMapper } from '../../adapters/mapper/cropMapper';
+
+@Injectable()
+export class farmRepository implements IFarmRepository {
+  constructor(private prisma: PrismaService) {}
+
+  async createFarm(data: Farm): Promise<Farm> {
+    const farm = await this.prisma.farm.create({
+      data: FarmMapper.toDatabase(data),
+      include: {
+        Harvest: { include: { Crop: true } },
+        Producer: true,
+      },
+    });
+
+    return FarmMapper.toDomain(farm);
+  }
+
+  async createHarvest(data: Harvest[]): Promise<void> {
+    await this.prisma.harvest.createMany({
+      data: data.map(HarvestMapper.toDatabase),
+      skipDuplicates: true,
+    });
+  }
+
+  async createCrop(data: Crop[]): Promise<void> {
+    await this.prisma.crop.createMany({
+      data: data.map(CropMapper.toDatabase),
+      skipDuplicates: true,
+    });
+  }
+
+  async findByParams(data: FindFarm): Promise<Farm | null> {
+    const farm = await this.prisma.farm.findFirst({
+      where: { name: data.name, city: data.city, state: data.state },
+      include: {
+        Harvest: { include: { Crop: true } },
+        Producer: true,
+      },
+    });
+
+    if (!farm) {
+      return null;
+    }
+
+    return FarmMapper.toDomain(farm);
+  }
+}
