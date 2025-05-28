@@ -154,3 +154,15 @@ export class DeleteFarmDTO {
   @IsPositive({ message: 'farmId must be a positive number' })
   farmId: number;
 }
+
+export class DeleteHarvestDTO {
+  @ApiProperty({
+    example: 1,
+    description: 'Id of the harvest',
+    required: true,
+  })
+  @IsInt({ message: 'harvestId must be an integer' })
+  @IsNotEmpty({ message: 'harvestId is required' })
+  @IsPositive({ message: 'harvestId must be a positive number' })
+  harvestId: number;
+}
