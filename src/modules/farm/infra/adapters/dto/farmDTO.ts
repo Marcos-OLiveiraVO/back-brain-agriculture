@@ -167,14 +167,7 @@ export class DeleteHarvestDTO {
   harvestId: number;
 }
 
-export class UpdateFarmDTO extends OmitType(FarmDTO, ['harvests', 'producerId']) {
-  @ApiProperty({
-    example: 1,
-    description: 'Id of the farm',
-    required: true,
-  })
-  @IsInt({ message: 'farmId must be an integer' })
-  @IsNotEmpty({ message: 'farmId is required' })
-  @IsPositive({ message: 'farmId must be a positive number' })
-  id: number;
-}
+export class UpdateFarmDTO extends OmitType(FarmDTO, ['harvests', 'producerId']) {}
+export class FindFarmDTO extends DeleteFarmDTO {}
+
+export class CreateHarvestDTO extends OmitType(HarvestDTO, ['farmId']) {}

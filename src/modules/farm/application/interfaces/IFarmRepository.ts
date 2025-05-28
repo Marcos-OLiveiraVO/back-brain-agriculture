@@ -5,7 +5,7 @@ import { FindFarm, UpdateFarmRepositoryInput } from './farmRequest';
 
 export abstract class IFarmRepository {
   abstract createFarm(data: Farm): Promise<Farm>;
-  abstract createHarvest(data: Harvest[]): Promise<void>;
+  abstract createHarvest(data: Harvest[]): Promise<Harvest[]>;
   abstract createCrop(data: Crop[]): Promise<void>;
   abstract updateFarm(data: UpdateFarmRepositoryInput): Promise<Farm>;
   abstract findByParams(data: FindFarm): Promise<Farm | null>;

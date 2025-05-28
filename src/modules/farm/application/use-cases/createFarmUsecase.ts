@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Farm } from '../entities/farm';
 import { validateArea } from '@shared/utils/functions/validateArea';
-import { FarmInput, HarvestInput } from '../interfaces/farmRequest';
+import { FarmInput } from '../interfaces/farmRequest';
 import { IFarmRepository } from '../interfaces/IFarmRepository';
 import { CreateHarvestUsecase } from './createHarvestUsecase';
 import { IProducerRepository } from '@producer/application/interfaces/IProducerRepository';
@@ -37,14 +37,10 @@ export class CreateFarmUseCase {
 
     const farmCreated = await this.farmRepository.createFarm(farm);
 
-    const harvestWithFarmId = data.harvests.map(harvest => {
-      return {
-        ...harvest,
-        farmId: farmCreated!.id,
-      };
-    }) as HarvestInput[];
-
-    await this.createHarvestUseCase.execute(harvestWithFarmId);
+    await this.createHarvestUseCase.execute({
+      farmId: farmCreated!.id!,
+      harvests: data.harvests,
+    });
 
     return await this.farmRepository.findByParams(farmCreated);
   }

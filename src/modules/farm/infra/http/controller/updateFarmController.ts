@@ -1,6 +1,6 @@
-import { Body, Controller, HttpCode, NotFoundException, Patch, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Param, Patch } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UpdateFarmDTO } from '../../adapters/dto/farmDTO';
+import { FindFarmDTO, UpdateFarmDTO } from '../../adapters/dto/farmDTO';
 import { FarmViewModel } from '../viewModel/farmViewModel';
 import { UpdateFarmUsecase } from 'modules/farm/application/use-cases/updateFarmUsecase';
 
@@ -10,10 +10,13 @@ import { UpdateFarmUsecase } from 'modules/farm/application/use-cases/updateFarm
 export class UpdateFarmController {
   constructor(private readonly updateFarmUsecase: UpdateFarmUsecase) {}
 
-  @Patch()
+  @Patch('/:farmId')
   @HttpCode(200)
-  async handler(@Body() data: UpdateFarmDTO): Promise<FarmViewModel> {
-    const farm = await this.updateFarmUsecase.execute(data);
+  async handler(@Body() data: UpdateFarmDTO, @Param() farmData: FindFarmDTO): Promise<FarmViewModel> {
+    const farm = await this.updateFarmUsecase.execute({
+      ...data,
+      id: farmData.farmId,
+    });
 
     return FarmViewModel.toHttp(farm);
   }

@@ -30,8 +30,12 @@ export interface UpdateFarmRepositoryInput extends Omit<UpdateFarmInput, 'totalA
 export interface HarvestInput {
   year: number;
   month: number;
-  farmId: number;
   crops: CropInput[];
+}
+
+export interface CreateHarvestInput {
+  harvests: HarvestInput[];
+  farmId: number;
 }
 
 export interface CropInput {

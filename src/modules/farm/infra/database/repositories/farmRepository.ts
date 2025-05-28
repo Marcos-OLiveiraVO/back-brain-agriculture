@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@shared/database/prismaService';
 import { Farm } from 'modules/farm/application/entities/farm';
-import { FindFarm, UpdateFarmRepositoryInput } from 'modules/farm/application/interfaces/farmRequest';
 import { IFarmRepository } from 'modules/farm/application/interfaces/IFarmRepository';
 import { FarmMapper } from '../../adapters/mapper/farmMapper';
 import { Crop } from 'modules/farm/application/entities/crop';
 import { Harvest } from 'modules/farm/application/entities/harvest';
 import { CropMapper } from '../../adapters/mapper/cropMapper';
+import { HarvestMapper } from '../../adapters/mapper/harvestMapper';
+import { FindFarm, HarvestDomainMapperInput, UpdateFarmRepositoryInput } from 'modules/farm/application/interfaces/farmRequest';
 
 @Injectable()
 export class farmRepository implements IFarmRepository {
@@ -20,26 +21,26 @@ export class farmRepository implements IFarmRepository {
     return FarmMapper.toDomain(farm);
   }
 
-  async createHarvest(data: Harvest[]): Promise<void> {
-    const promises = data.map(async harvest => {
-      const crops = harvest.Crop?.map(CropMapper.toDatabase) ?? [];
+  async createHarvest(data: Harvest[]): Promise<Harvest[]> {
+    const harvestsCreated = await Promise.all(
+      data.map(async harvest => {
+        const crops = harvest.Crop?.map(CropMapper.toDatabase) ?? [];
 
-      await this.prisma.harvest.create({
-        data: {
-          year: harvest.year,
-          month: harvest.month,
-          farmId: harvest.farmId,
-          Crop: {
-            createMany: {
-              data: crops,
-              skipDuplicates: true,
-            },
+        const created = await this.prisma.harvest.create({
+          data: {
+            year: harvest.year,
+            month: harvest.month,
+            farmId: harvest.farmId,
+            Crop: { createMany: { data: crops, skipDuplicates: true } },
           },
-        },
-      });
-    });
+          include: { Crop: true },
+        });
 
-    await Promise.all(promises);
+        return HarvestMapper.toDomain(created as unknown as HarvestDomainMapperInput);
+      }),
+    );
+
+    return harvestsCreated;
   }
 
   async updateFarm(data: UpdateFarmRepositoryInput): Promise<Farm> {
