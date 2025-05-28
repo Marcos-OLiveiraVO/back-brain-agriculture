@@ -7,3 +7,69 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model producer {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+  cnpj String @db.VarChar(14)
+  cpf  String @db.VarChar(11)
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Farm farm[] @relation(name: "farm_producer")
+
+  @@index([cnpj, cpf])
+  @@map("producer")
+}
+
+model farm {
+  id         Int    @id @default(autoincrement())
+  producerId Int    @map("producer_id")
+  name       String @db.VarChar(255)
+  city       String @db.VarChar(255)
+  state      String @db.VarChar(255)
+
+  totalArea     Decimal @map("total_area") @db.Decimal(10, 2)
+  arableArea    Decimal @map("arable_area") @db.Decimal(10, 2)
+  vegetableArea Decimal @map("vegetable_area") @db.Decimal(10, 2)
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Producer producer  @relation(name: "farm_producer", fields: [producerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  Harvest  harvest[] @relation(name: "harvest_farm")
+
+  @@index([producerId])
+  @@map("farm")
+}
+
+model harvest {
+  id     Int  @id @default(autoincrement())
+  farmId Int  @map("farm_id")
+  year   Int  @db.Integer()
+  month  Int? @db.Integer()
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Farm farm   @relation(name: "harvest_farm", fields: [farmId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  Crop crop[] @relation(name: "crop_harvest")
+
+  @@index([farmId])
+  @@map("harvest")
+}
+
+model crop {
+  id        Int    @id @default(autoincrement())
+  harvestId Int    @map("harvest_id")
+  name      String @db.VarChar(255)
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Harvest harvest @relation(name: "crop_harvest", fields: [harvestId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([harvestId])
+  @@map("crop")
+}
