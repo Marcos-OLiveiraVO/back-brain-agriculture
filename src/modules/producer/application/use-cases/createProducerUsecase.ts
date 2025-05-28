@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { Producer } from '../entities/producer';
 import { IProducerRepository } from '../interfaces/IProducerRepository';
 import { ProducerInput } from '../interfaces/producerRequest';
@@ -8,10 +9,11 @@ export class CreateProducerUseCase {
   constructor(private producerRepository: IProducerRepository) {}
 
   async execute(data: ProducerInput): Promise<Producer> {
-    const atLeastOneField = data.cnpj || data.cpf;
+    const isCpfValid = data.cpf && cpf.isValid(data.cpf);
+    const isCnpjValid = data.cnpj && cnpj.isValid(data.cnpj);
 
-    if (!atLeastOneField) {
-      throw new UnprocessableEntityException('At least one field is required');
+    if (!isCpfValid && !isCnpjValid) {
+      throw new UnprocessableEntityException('You must provide a valid CPF or CNPJ');
     }
 
     const producerExist = await this.producerRepository.findByParams(data);

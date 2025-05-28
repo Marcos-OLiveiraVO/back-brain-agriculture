@@ -1,5 +1,4 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { AtLeastOneField } from '@shared/utils/decorators/oneFieldNecessary';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
 export class ProducerDTO {
@@ -34,8 +33,4 @@ export class ProducerDTO {
   @IsOptional({ message: 'cpf is optional' })
   @Length(11, 11, { message: 'cpf must be 11 characters' })
   cpf?: string;
-
-  @ApiHideProperty()
-  @AtLeastOneField(['cnpj', 'cpf'], { message: 'At least one field is required' })
-  dummyValidationField: string;
 }
