@@ -64,4 +64,10 @@ export class farmRepository implements IFarmRepository {
 
     return FarmMapper.toDomain(farm);
   }
+
+  async deleteFarm(farmId: number): Promise<void> {
+    await this.prisma.farm.deleteMany({
+      where: { id: farmId },
+    });
+  }
 }

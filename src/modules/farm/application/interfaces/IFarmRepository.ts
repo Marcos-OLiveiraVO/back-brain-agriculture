@@ -8,4 +8,5 @@ export abstract class IFarmRepository {
   abstract createHarvest(data: Harvest[]): Promise<void>;
   abstract createCrop(data: Crop[]): Promise<void>;
   abstract findByParams(data: FindFarm): Promise<Farm | null>;
+  abstract deleteFarm(farmId: number): Promise<void>;
 }

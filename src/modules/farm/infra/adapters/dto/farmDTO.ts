@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { IsNonNegativeDecimal } from '@shared/utils/decorators/decimal';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Length, Max, Min, ValidateNested } from 'class-validator';
@@ -55,7 +55,7 @@ export class FarmDTO {
   totalArea: string;
 
   @ApiProperty({
-    example: '1000.00',
+    example: '500.00',
     description: 'Arable area of the farm',
     required: true,
   })
@@ -65,7 +65,7 @@ export class FarmDTO {
   arableArea: string;
 
   @ApiProperty({
-    example: '1000.00',
+    example: '500.00',
     description: 'vegetation Area of the farm',
     required: true,
   })
@@ -108,11 +108,7 @@ export class HarvestDTO {
   @Max(12, { message: 'month must be at most 12' })
   month: number;
 
-  @ApiProperty({
-    example: '1',
-    description: 'Id of the farm',
-    required: false,
-  })
+  @ApiHideProperty()
   @IsInt({ message: 'farmId must be an integer' })
   @IsOptional({ message: 'farmId is optional' })
   @IsPositive({ message: 'farmId must be a positive number' })
@@ -140,14 +136,21 @@ export class CropDTO {
   @Length(3, 255, { message: 'name must be between 3 and 255 characters' })
   name: string;
 
-  @ApiProperty({
-    example: 1,
-    description: 'Id of the harvest',
-    required: false,
-    nullable: true,
-  })
+  @ApiHideProperty()
   @IsInt({ message: 'harvestId must be an integer' })
   @IsOptional({ message: 'harvestId is optional' })
   @IsPositive({ message: 'harvestId must be a positive number' })
   harvestId: number;
+}
+
+export class DeleteFarmDTO {
+  @ApiProperty({
+    example: 1,
+    description: 'Id of the farm',
+    required: true,
+  })
+  @IsInt({ message: 'farmId must be an integer' })
+  @IsNotEmpty({ message: 'farmId is required' })
+  @IsPositive({ message: 'farmId must be a positive number' })
+  farmId: number;
 }

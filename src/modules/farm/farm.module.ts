@@ -6,10 +6,18 @@ import { IFarmRepository } from './application/interfaces/IFarmRepository';
 import { CreateCropUsecase } from './application/use-cases/createCropUsecase';
 import { CreateHarvestUsecase } from './application/use-cases/createHarvestUsecase';
 import { farmRepository } from './infra/database/repositories/farmRepository';
+import { DeleteFarmController } from './infra/http/controller/deleteFarmController';
+import { DeleteFarmUseCase } from './application/use-cases/deleteFarmUsecase';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [CreateFarmUseCase, CreateCropUsecase, CreateHarvestUsecase, { provide: IFarmRepository, useClass: farmRepository }],
-  controllers: [CreateFarmController],
+  providers: [
+    CreateFarmUseCase,
+    CreateCropUsecase,
+    CreateHarvestUsecase,
+    DeleteFarmUseCase,
+    { provide: IFarmRepository, useClass: farmRepository },
+  ],
+  controllers: [CreateFarmController, DeleteFarmController],
 })
 export class FarmModule {}
