@@ -12,6 +12,7 @@ import {
   FindFarm,
   HarvestDomainMapperInput,
   UpdateFarmRepositoryInput,
+  UpdateHarvestInput,
 } from 'modules/farm/application/interfaces/farmRequest';
 
 @Injectable()
@@ -55,6 +56,15 @@ export class farmRepository implements IFarmRepository {
     });
 
     return FarmMapper.toDomain(farm);
+  }
+
+  async updateHarvest(data: UpdateHarvestInput): Promise<Harvest> {
+    const harvest = await this.prisma.harvest.update({
+      where: { id: data.id },
+      data: HarvestMapper.toDatabase(data as unknown as Harvest),
+    });
+
+    return HarvestMapper.toDomain(harvest);
   }
 
   async createCrop(data: Crop[]): Promise<Crop[]> {

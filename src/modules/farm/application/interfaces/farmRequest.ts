@@ -63,3 +63,9 @@ export interface FarmDomainMapperInput extends farm {
 export interface HarvestDomainMapperInput extends harvest {
   Crop?: Prisma.cropGetPayload<{ include: { Harvest: true } }>[];
 }
+
+export interface UpdateHarvestInput {
+  id: number;
+  year: number;
+  month: number;
+}

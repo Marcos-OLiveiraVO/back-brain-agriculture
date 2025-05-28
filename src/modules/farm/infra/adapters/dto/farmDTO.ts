@@ -209,3 +209,5 @@ export class CreateCropDTO {
   @ArrayMaxSize(3, { message: 'name must have a maximum of 10 elements' })
   name: string[];
 }
+
+export class UpdateHarvestDTO extends OmitType(HarvestDTO, ['farmId', 'crops']) {}
