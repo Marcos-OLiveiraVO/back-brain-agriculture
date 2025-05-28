@@ -1,5 +1,3 @@
-## Descrição
-
 Repositório referente ao projeto Brain Agriculture.
 Todo o projeto pode ser executado localmente utilizando Docker + Docker Compose.
 
@@ -92,8 +90,12 @@ $ yarn
 ## Rodando o projeto
 
 ```bash
-$ yarn start
+$ yarn dev
 ```
+[Screencast from 2025-05-28 19-04-09.webm](https://github.com/user-attachments/assets/e597660f-9aa2-41c3-ab56-4034e4cd8d35)
+
+## Doumentação da api - Swagger
+[Screencast from 2025-05-28 19-07-47.webm](https://github.com/user-attachments/assets/5a63e02b-5c8d-408e-b0f5-4fd731930cc4)
 
 ## Rodando os testes automatizados
 
