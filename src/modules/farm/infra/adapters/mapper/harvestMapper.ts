@@ -1,10 +1,7 @@
-import { harvest, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Harvest } from 'modules/farm/application/entities/harvest';
 import { CropMapper } from './cropMapper';
-
-export interface HarvestDomainMapperInput extends harvest {
-  Crop?: Prisma.cropGetPayload<{ include: { Harvest: true } }>[];
-}
+import { HarvestDomainMapperInput } from 'modules/farm/application/interfaces/farmRequest';
 
 export class HarvestMapper {
   static toDomain(model: HarvestDomainMapperInput): Harvest {

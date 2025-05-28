@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@shared/database/prismaService';
 import { Farm } from 'modules/farm/application/entities/farm';
-import { FindFarm } from 'modules/farm/application/interfaces/farmRequest';
+import { FindFarm, UpdateFarmRepositoryInput } from 'modules/farm/application/interfaces/farmRequest';
 import { IFarmRepository } from 'modules/farm/application/interfaces/IFarmRepository';
 import { FarmMapper } from '../../adapters/mapper/farmMapper';
 import { Crop } from 'modules/farm/application/entities/crop';
@@ -42,6 +42,15 @@ export class farmRepository implements IFarmRepository {
     await Promise.all(promises);
   }
 
+  async updateFarm(data: UpdateFarmRepositoryInput): Promise<Farm> {
+    const farm = await this.prisma.farm.update({
+      where: { id: data.id },
+      data: FarmMapper.toDatabase(data as unknown as Farm),
+    });
+
+    return FarmMapper.toDomain(farm);
+  }
+
   async createCrop(data: Crop[]): Promise<void> {
     await this.prisma.crop.createMany({
       data: data.map(CropMapper.toDatabase),
@@ -51,7 +60,9 @@ export class farmRepository implements IFarmRepository {
 
   async findByParams(data: FindFarm): Promise<Farm | null> {
     const farm = await this.prisma.farm.findFirst({
-      where: { name: data.name, city: data.city, state: data.state },
+      where: {
+        OR: [{ name: data.name, city: data.city, state: data.state }, { id: data.id }],
+      },
       include: {
         Harvest: { include: { Crop: true } },
         Producer: true,

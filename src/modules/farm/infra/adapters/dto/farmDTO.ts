@@ -1,4 +1,4 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, OmitType } from '@nestjs/swagger';
 import { IsNonNegativeDecimal } from '@shared/utils/decorators/decimal';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Length, Max, Min, ValidateNested } from 'class-validator';
@@ -165,4 +165,16 @@ export class DeleteHarvestDTO {
   @IsNotEmpty({ message: 'harvestId is required' })
   @IsPositive({ message: 'harvestId must be a positive number' })
   harvestId: number;
+}
+
+export class UpdateFarmDTO extends OmitType(FarmDTO, ['harvests', 'producerId']) {
+  @ApiProperty({
+    example: 1,
+    description: 'Id of the farm',
+    required: true,
+  })
+  @IsInt({ message: 'farmId must be an integer' })
+  @IsNotEmpty({ message: 'farmId is required' })
+  @IsPositive({ message: 'farmId must be a positive number' })
+  id: number;
 }
