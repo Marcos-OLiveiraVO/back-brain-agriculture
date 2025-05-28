@@ -1,0 +1,14 @@
+FROM node:22.14.0
+
+WORKDIR /node/app/
+
+ENV NODE_OPTIONS="--max-old-space-size=4144"
+
+COPY package*.json yarn.lock ./
+RUN yarn install
+
+COPY . .
+RUN npx prisma generate
+
+EXPOSE 3000
+CMD ["yarn", "start:dev"]
