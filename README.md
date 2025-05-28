@@ -25,12 +25,15 @@ Safras (ex: Safra 2021, Safra 2022)
 Culturas plantadas (ex.: Soja na Safra 2021, Milho na Safra 2021, Café na Safra 2022)
 ```
 
-No entanto, optei por uma abordagem modularizada. Assim, o fluxo segue a seguinte ordem:
+No entanto, optei por uma abordagem modularizada.
 
-- 1 - Criar o produtor
-- 2 - Criar a propriedade rural do produtor
-- 3 - Criar a safra (uma propriedade pode ter várias safras)
-- 4 - Criar as culturas plantadas (uma safra pode ter várias culturas)
+### Estrutura modular
+
+Dividi o projeto em módulos (`producer`, `farm`, etc) com seus próprios casos de uso, entidades e controllers. Essa decisão foi tomada para:
+
+- Garantir uma separação clara de responsabilidades.
+- Facilitar a manutenção e a escalabilidade do projeto.
+- Aumentar a coesão interna e diminuir o acoplamento entre funcionalidades.
 
 Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente, se você deseja adicionar a funcionalidade "X" no módulo "Y", os demais módulos não precisam saber da implementação.
 
