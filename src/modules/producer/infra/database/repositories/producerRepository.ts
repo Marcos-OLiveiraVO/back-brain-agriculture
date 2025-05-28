@@ -17,6 +17,14 @@ export class ProducerRepository implements IProducerRepository {
     return ProducerMapper.toDomain(producer);
   }
 
+  async deleteProducer(producerId: number): Promise<void> {
+    await this.prisma.producer.deleteMany({
+      where: {
+        id: producerId,
+      },
+    });
+  }
+
   async findByParams(data: FindProducer): Promise<Producer | null> {
     const producer = await this.prisma.producer.findFirst({
       where: {

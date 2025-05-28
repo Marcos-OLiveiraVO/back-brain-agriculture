@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Length } from 'class-validator';
 
 export class ProducerDTO {
   @ApiProperty({
@@ -13,7 +13,7 @@ export class ProducerDTO {
   name: string;
 
   @ApiProperty({
-    example: '89589538000197',
+    example: '32936337000100',
     description: 'Producer CNPJ. Either CNPJ or CPF must be provided.',
     required: false,
     pattern: '^[0-9]{14}$',
@@ -24,7 +24,7 @@ export class ProducerDTO {
   cnpj?: string;
 
   @ApiProperty({
-    example: '03949136045',
+    example: '94756224032',
     description: 'Producer CPF. Either CPF or CNPJ must be provided.',
     required: false,
     pattern: '^[0-9]{11}$',
@@ -33,4 +33,16 @@ export class ProducerDTO {
   @IsOptional({ message: 'cpf is optional' })
   @Length(11, 11, { message: 'cpf must be 11 characters' })
   cpf?: string;
+}
+
+export class DeleteProducerDTO {
+  @ApiProperty({
+    example: 1,
+    description: 'Producer ID',
+    required: true,
+  })
+  @IsNotEmpty({ message: 'id is required' })
+  @IsInt({ message: 'id must be an integer' })
+  @IsPositive({ message: 'id must be a positive number' })
+  id: number;
 }

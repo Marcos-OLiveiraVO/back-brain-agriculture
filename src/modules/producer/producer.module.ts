@@ -4,11 +4,13 @@ import { IProducerRepository } from './application/interfaces/IProducerRepositor
 import { ProducerRepository } from './infra/database/repositories/producerRepository';
 import { CreateProducerController } from './infra/http/controller/createProducerController';
 import { DatabaseModule } from '@shared/database/database.module';
+import { DeleteProducerController } from './infra/http/controller/deleteProducerController';
+import { DeleteProducerUseCase } from './application/use-cases/deleteProducerUsecase';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [CreateProducerUseCase, { provide: IProducerRepository, useClass: ProducerRepository }],
-  controllers: [CreateProducerController],
+  providers: [CreateProducerUseCase, DeleteProducerUseCase, { provide: IProducerRepository, useClass: ProducerRepository }],
+  controllers: [CreateProducerController, DeleteProducerController],
   exports: [{ provide: IProducerRepository, useClass: ProducerRepository }],
 })
 export class ProducerModule {}
