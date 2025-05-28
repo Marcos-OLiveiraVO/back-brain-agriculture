@@ -61,9 +61,7 @@ Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente,
 **Todas as funcionalidades foram separadas em suas respectivas issues e branches, de forma organizada.**
 ![alt text](image-2.png)
 
-## Estrutura de Pastas dos Módulos
-
-Demais Funcionalidades implementadas:
+## Demais Funcionalidades implementadas:
 
 - 1 - **Swagger** - Integração com swagger para documentação da api e rotas.
 - 2 - **Docker** - Integração com docker rodando em ambiente local
