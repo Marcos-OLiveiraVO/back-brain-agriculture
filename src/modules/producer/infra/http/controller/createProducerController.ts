@@ -4,7 +4,7 @@ import { CreateProducerUseCase } from 'modules/producer/application/use-cases/cr
 import { ProducerViewModel } from '../viewModel/producerViewModel';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('producer')
+@ApiTags('Producer')
 @ApiResponse({ status: 409, description: 'Producer already exists' })
 @ApiResponse({ status: 422, description: 'At least one field is required: cpf or cnpj' })
 @Controller('/producer')
