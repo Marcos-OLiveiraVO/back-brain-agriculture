@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "producer" ALTER COLUMN "cnpj" DROP NOT NULL,
+ALTER COLUMN "cpf" DROP NOT NULL;
