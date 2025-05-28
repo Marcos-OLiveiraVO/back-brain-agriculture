@@ -69,3 +69,14 @@ export interface UpdateHarvestInput {
   year: number;
   month: number;
 }
+
+export interface GetStatisticsOutput {
+  totalFarms: number;
+  totalHectares: Decimal;
+  byState: { state: string; total: number }[];
+  byCrop: { crop: string; total: number }[];
+  bySoilUsage: {
+    totalArable: Decimal;
+    totalVegetation: Decimal;
+  };
+}

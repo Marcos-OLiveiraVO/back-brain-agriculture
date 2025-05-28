@@ -7,9 +7,11 @@ import { Crop } from 'modules/farm/application/entities/crop';
 import { Harvest } from 'modules/farm/application/entities/harvest';
 import { CropMapper } from '../../adapters/mapper/cropMapper';
 import { HarvestMapper } from '../../adapters/mapper/harvestMapper';
+import { Decimal } from '@prisma/client/runtime/library';
 import {
   CreateCropInput,
   FindFarm,
+  GetStatisticsOutput,
   HarvestDomainMapperInput,
   UpdateFarmRepositoryInput,
   UpdateHarvestInput,
@@ -111,6 +113,39 @@ export class farmRepository implements IFarmRepository {
     });
 
     return crops.map(crop => crop.name);
+  }
+
+  async findStatistics(): Promise<GetStatisticsOutput> {
+    const aggregatePromise = this.prisma.farm.aggregate({
+      _count: { id: true },
+      _sum: {
+        totalArea: true,
+        arableArea: true,
+        vegetationArea: true,
+      },
+    });
+
+    const groupByPromise = this.prisma.farm.groupBy({ by: ['state'], _count: { _all: true } });
+    const cropsPromise = this.prisma.crop.groupBy({ by: ['name'], _count: { _all: true } });
+
+    const [aggregates, farmsByState, cropsByName] = await Promise.all([aggregatePromise, groupByPromise, cropsPromise]);
+
+    return {
+      totalFarms: aggregates._count.id,
+      totalHectares: aggregates._sum.totalArea ?? Decimal(0),
+      byState: farmsByState.map(item => ({
+        state: item.state,
+        total: item._count._all,
+      })),
+      byCrop: cropsByName.map(item => ({
+        crop: item.name,
+        total: item._count._all,
+      })),
+      bySoilUsage: {
+        totalArable: aggregates._sum.arableArea ?? Decimal(0),
+        totalVegetation: aggregates._sum.vegetationArea ?? Decimal(0),
+      },
+    };
   }
 
   async deleteFarm(farmId: number): Promise<void> {
