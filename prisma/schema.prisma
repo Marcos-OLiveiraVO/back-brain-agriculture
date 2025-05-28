@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -11,8 +10,8 @@ datasource db {
 model producer {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(255)
-  cnpj String @db.VarChar(14)
-  cpf  String @db.VarChar(11)
+  cnpj String? @db.VarChar(14)
+  cpf  String? @db.VarChar(11)
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
