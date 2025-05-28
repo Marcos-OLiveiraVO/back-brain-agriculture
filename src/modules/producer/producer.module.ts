@@ -9,5 +9,6 @@ import { DatabaseModule } from '@shared/database/database.module';
   imports: [DatabaseModule],
   providers: [CreateProducerUseCase, { provide: IProducerRepository, useClass: ProducerRepository }],
   controllers: [CreateProducerController],
+  exports: [{ provide: IProducerRepository, useClass: ProducerRepository }],
 })
 export class ProducerModule {}

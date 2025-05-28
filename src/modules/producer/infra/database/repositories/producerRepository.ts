@@ -30,4 +30,18 @@ export class ProducerRepository implements IProducerRepository {
 
     return ProducerMapper.toDomain(producer);
   }
+
+  async findByProducerId(producerId: number): Promise<Producer | null> {
+    const producer = await this.prisma.producer.findUnique({
+      where: {
+        id: producerId,
+      },
+    });
+
+    if (!producer) {
+      return null;
+    }
+
+    return ProducerMapper.toDomain(producer);
+  }
 }
