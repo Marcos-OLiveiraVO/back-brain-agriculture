@@ -1,15 +1,20 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ProducerDTO } from '../../adapters/dto/producerDTO';
 import { CreateProducerUseCase } from 'modules/producer/application/use-cases/createProducerUsecase';
-import { Producer } from 'modules/producer/application/entities/producer';
+import { ProducerViewModel } from '../viewModel/producerViewModel';
+import { ApiResponse } from '@nestjs/swagger';
 
+@ApiResponse({ status: 409, description: 'Producer already exists' })
+@ApiResponse({ status: 422, description: 'At least one field is required: cpf or cnpj' })
 @Controller('/producer')
 export class CreateProducerController {
   constructor(private readonly createProducerUseCase: CreateProducerUseCase) {}
 
   @Post()
   @HttpCode(201)
-  async handler(@Body() data: ProducerDTO): Promise<Producer> {
-    return this.createProducerUseCase.execute(data);
+  async handler(@Body() data: ProducerDTO): Promise<ProducerViewModel> {
+    const producer = await this.createProducerUseCase.execute(data);
+
+    return ProducerViewModel.toHttp(producer);
   }
 }
