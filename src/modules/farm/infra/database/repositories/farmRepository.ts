@@ -88,4 +88,10 @@ export class farmRepository implements IFarmRepository {
       where: { id: harvestId },
     });
   }
+
+  async deleteCrop(cropId: number): Promise<void> {
+    await this.prisma.crop.deleteMany({
+      where: { id: cropId },
+    });
+  }
 }

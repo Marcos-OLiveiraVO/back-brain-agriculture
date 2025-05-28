@@ -11,4 +11,5 @@ export abstract class IFarmRepository {
   abstract findByParams(data: FindFarm): Promise<Farm | null>;
   abstract deleteFarm(farmId: number): Promise<void>;
   abstract deleteHarvest(harvestId: number): Promise<void>;
+  abstract deleteCrop(cropId: number): Promise<void>;
 }

@@ -16,6 +16,8 @@ import { DeleteHarvestController } from './infra/http/controller/deleteHarvestCo
 import { UpdateFarmController } from './infra/http/controller/updateFarmController';
 import { UpdateFarmUsecase } from './application/use-cases/updateFarmUsecase';
 import { CreateHarvestController } from './infra/http/controller/createHarvestController';
+import { DeleteCropUsecase } from './application/use-cases/deleteCropUsecase';
+import { DeleteCropController } from './infra/http/controller/deleteCropController';
 
 @Module({
   imports: [DatabaseModule, ProducerModule],
@@ -26,6 +28,7 @@ import { CreateHarvestController } from './infra/http/controller/createHarvestCo
     UpdateFarmUsecase,
     DeleteFarmUseCase,
     DeleteHarvestUsecase,
+    DeleteCropUsecase,
     { provide: IFarmRepository, useClass: farmRepository },
     { provide: IProducerRepository, useClass: ProducerRepository },
   ],
@@ -35,6 +38,7 @@ import { CreateHarvestController } from './infra/http/controller/createHarvestCo
     UpdateFarmController,
     DeleteFarmController,
     DeleteHarvestController,
+    DeleteCropController,
   ],
 })
 export class FarmModule {}
