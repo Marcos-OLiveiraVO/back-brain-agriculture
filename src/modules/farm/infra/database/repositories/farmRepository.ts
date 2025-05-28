@@ -7,7 +7,12 @@ import { Crop } from 'modules/farm/application/entities/crop';
 import { Harvest } from 'modules/farm/application/entities/harvest';
 import { CropMapper } from '../../adapters/mapper/cropMapper';
 import { HarvestMapper } from '../../adapters/mapper/harvestMapper';
-import { FindFarm, HarvestDomainMapperInput, UpdateFarmRepositoryInput } from 'modules/farm/application/interfaces/farmRequest';
+import {
+  CreateCropInput,
+  FindFarm,
+  HarvestDomainMapperInput,
+  UpdateFarmRepositoryInput,
+} from 'modules/farm/application/interfaces/farmRequest';
 
 @Injectable()
 export class farmRepository implements IFarmRepository {
@@ -52,11 +57,17 @@ export class farmRepository implements IFarmRepository {
     return FarmMapper.toDomain(farm);
   }
 
-  async createCrop(data: Crop[]): Promise<void> {
-    await this.prisma.crop.createMany({
-      data: data.map(CropMapper.toDatabase),
-      skipDuplicates: true,
-    });
+  async createCrop(data: Crop[]): Promise<Crop[]> {
+    const crops = await Promise.all(
+      data.map(async crop => {
+        return await this.prisma.crop.create({
+          data: CropMapper.toDatabase(crop),
+          include: { Harvest: true },
+        });
+      }),
+    );
+
+    return crops.map(crop => CropMapper.toDomain(crop));
   }
 
   async findByParams(data: FindFarm): Promise<Farm | null> {
@@ -64,10 +75,7 @@ export class farmRepository implements IFarmRepository {
       where: {
         OR: [{ name: data.name, city: data.city, state: data.state }, { id: data.id }],
       },
-      include: {
-        Harvest: { include: { Crop: true } },
-        Producer: true,
-      },
+      include: { Harvest: { include: { Crop: true } }, Producer: true },
     });
 
     if (!farm) {
@@ -75,6 +83,24 @@ export class farmRepository implements IFarmRepository {
     }
 
     return FarmMapper.toDomain(farm);
+  }
+
+  async findHarvestById(data: FindFarm): Promise<boolean> {
+    const harvest = await this.prisma.harvest.findFirst({
+      where: { id: data.id },
+      select: { id: true },
+    });
+
+    return harvest ? true : false;
+  }
+
+  async findCropsByNamesAndHarvest(data: CreateCropInput): Promise<string[]> {
+    const crops = await this.prisma.crop.findMany({
+      where: { name: { in: data.name }, harvestId: data.harvestId },
+      select: { name: true },
+    });
+
+    return crops.map(crop => crop.name);
   }
 
   async deleteFarm(farmId: number): Promise<void> {

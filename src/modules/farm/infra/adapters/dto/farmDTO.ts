@@ -1,7 +1,19 @@
 import { ApiHideProperty, ApiProperty, OmitType } from '@nestjs/swagger';
 import { IsNonNegativeDecimal } from '@shared/utils/decorators/decimal';
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Length, Max, Min, ValidateNested } from 'class-validator';
+import {
+  ArrayMaxSize,
+  IsArray,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Length,
+  Max,
+  Min,
+  ValidateNested,
+} from 'class-validator';
 
 export class FarmDTO {
   @ApiProperty({
@@ -182,4 +194,18 @@ export class DeleteCropDTO {
   @IsNotEmpty({ message: 'cropId is required' })
   @IsPositive({ message: 'cropId must be a positive number' })
   cropId: number;
+}
+
+export class FindHarvestDTO extends DeleteHarvestDTO {}
+export class CreateCropDTO {
+  @ApiProperty({
+    example: ['Corn'],
+    description: 'Name of the crop',
+    required: true,
+    isArray: true,
+  })
+  @IsNotEmpty({ message: 'name is required' })
+  @IsArray({ message: 'name must be an array' })
+  @ArrayMaxSize(3, { message: 'name must have a maximum of 10 elements' })
+  name: string[];
 }

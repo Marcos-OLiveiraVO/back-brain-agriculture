@@ -18,6 +18,7 @@ import { UpdateFarmUsecase } from './application/use-cases/updateFarmUsecase';
 import { CreateHarvestController } from './infra/http/controller/createHarvestController';
 import { DeleteCropUsecase } from './application/use-cases/deleteCropUsecase';
 import { DeleteCropController } from './infra/http/controller/deleteCropController';
+import { CreateCropController } from './infra/http/controller/createCropController';
 
 @Module({
   imports: [DatabaseModule, ProducerModule],
@@ -35,6 +36,7 @@ import { DeleteCropController } from './infra/http/controller/deleteCropControll
   controllers: [
     CreateFarmController,
     CreateHarvestController,
+    CreateCropController,
     UpdateFarmController,
     DeleteFarmController,
     DeleteHarvestController,

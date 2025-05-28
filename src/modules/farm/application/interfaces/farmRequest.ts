@@ -43,6 +43,11 @@ export interface CropInput {
   harvestId: number;
 }
 
+export interface CreateCropInput {
+  name: string[];
+  harvestId: number;
+}
+
 export interface FindFarm {
   name?: string;
   city?: string;
