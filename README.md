@@ -3,16 +3,16 @@
 Repositório referente ao projeto Brain Agriculture.
 Todo o projeto pode ser executado localmente utilizando Docker + Docker Compose.
 
-Optei por utilizar conceitos de Arquitetura Limpa e DDD, como desenvolvimento orientado a entidades e regras de negócio bem definidas.
-
-O projeto segue firmemente o conceito de modularização.
+Optei por utilizar conceitos de Arquitetura Limpa e DDD, como desenvolvimento orientado a entidades e regras de negócio bem definidas. O projeto segue firmemente o conceito de modularização.
 
 Cada módulo é responsável por suas funcionalidades e é isolado dos demais. Deseja adicionar uma nova funcionalidade em producer? Você só precisa alterar o próprio módulo de producer.
+
+## Importante
 
 A descrição do desafio era um pouco ambígua.
 O que deu a entender foi que seria necessário um único endpoint com o seguinte JSON:
 
-```
+```json
 CPF ou CNPJ
 Nome do produtor
 Nome da fazenda (propriedade)
@@ -25,8 +25,6 @@ Safras (ex: Safra 2021, Safra 2022)
 Culturas plantadas (ex.: Soja na Safra 2021, Milho na Safra 2021, Café na Safra 2022)
 ```
 
-Optei por fazer modularizado como dito, então o fluxo segue sendo:
-
 No entanto, optei por uma abordagem modularizada. Assim, o fluxo segue a seguinte ordem:
 
 - 1 - Criar o produtor
@@ -36,13 +34,49 @@ No entanto, optei por uma abordagem modularizada. Assim, o fluxo segue a seguint
 
 Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente, se você deseja adicionar a funcionalidade "X" no módulo "Y", os demais módulos não precisam saber da implementação.
 
-**Todas as funcionalidades foram separadas em suas respectivas issues e branches, de forma organizada.**
+## Estrutura de Pastas dos Módulos
 
-## Tabelas planejadas no miro e implementadas
+```
+└── NomeDoMódulo
+    └── application
+        └── entities
+        └── use-cases
+        └── interfaces
+    └── infra
+        └── database
+            └── repositories
+        └── http
+            └── controllers
+            └── viewModels
+        └── adapters
+            └── dtos
+            └── mappers
+    └── tests
+        └── e2e
+        └── inMemoryRepository
+        └── unit
+        └── mockData
+```
+
+**Todas as funcionalidades foram separadas em suas respectivas issues e branches, de forma organizada.**
+![alt text](image-2.png)
+
+## Estrutura de Pastas dos Módulos
+
+Demais Funcionalidades implementadas:
+
+- 1 - **Swagger** - Integração com swagger para documentação da api e rotas.
+- 2 - **Docker** - Integração com docker rodando em ambiente local
+- 3 - **PostgreSQL** - Utilização do banco de dados postgresql
+- 4 - **ORM** - Utilização do ORM prisma
+- 5 - **Testes** - Criação de testes automatizados (integração e unitario)
+- 6 - **Dados Mockados** - Uso de dados mockados para os testes.
+
+## Tabelas planejadas no miro e implementadas:
 
 ![alt text](image.png)
 
-## Fluxo de regras de negocios e casos de uso que planejei no miro
+## Fluxo de regras de negocios e casos de uso que planejei no miro:
 
 ![alt text](image-1.png)
 
@@ -57,7 +91,6 @@ $ yarn
 ## Rodando o projeto
 
 ```bash
-# Usando docker
 $ yarn start
 ```
 
