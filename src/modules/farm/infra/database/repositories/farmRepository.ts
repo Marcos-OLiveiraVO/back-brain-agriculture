@@ -6,7 +6,6 @@ import { IFarmRepository } from 'modules/farm/application/interfaces/IFarmReposi
 import { FarmMapper } from '../../adapters/mapper/farmMapper';
 import { Crop } from 'modules/farm/application/entities/crop';
 import { Harvest } from 'modules/farm/application/entities/harvest';
-import { HarvestMapper } from '../../adapters/mapper/harvestMapper';
 import { CropMapper } from '../../adapters/mapper/cropMapper';
 
 @Injectable()
@@ -16,20 +15,31 @@ export class farmRepository implements IFarmRepository {
   async createFarm(data: Farm): Promise<Farm> {
     const farm = await this.prisma.farm.create({
       data: FarmMapper.toDatabase(data),
-      include: {
-        Harvest: { include: { Crop: true } },
-        Producer: true,
-      },
     });
 
     return FarmMapper.toDomain(farm);
   }
 
   async createHarvest(data: Harvest[]): Promise<void> {
-    await this.prisma.harvest.createMany({
-      data: data.map(HarvestMapper.toDatabase),
-      skipDuplicates: true,
+    const promises = data.map(async harvest => {
+      const crops = harvest.Crop?.map(CropMapper.toDatabase) ?? [];
+
+      await this.prisma.harvest.create({
+        data: {
+          year: harvest.year,
+          month: harvest.month,
+          farmId: harvest.farmId,
+          Crop: {
+            createMany: {
+              data: crops,
+              skipDuplicates: true,
+            },
+          },
+        },
+      });
     });
+
+    await Promise.all(promises);
   }
 
   async createCrop(data: Crop[]): Promise<void> {

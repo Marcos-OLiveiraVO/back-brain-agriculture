@@ -1,17 +1,15 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Farm } from '../entities/farm';
 import { validateArea } from '@shared/utils/functions/validateArea';
-import { FarmInput } from '../interfaces/farmRequest';
+import { FarmInput, HarvestInput } from '../interfaces/farmRequest';
 import { IFarmRepository } from '../interfaces/IFarmRepository';
 import { CreateHarvestUsecase } from './createHarvestUsecase';
-import { CreateCropUsecase } from './createCropUsecase';
 
 @Injectable()
 export class CreateFarmUseCase {
   constructor(
     private farmRepository: IFarmRepository,
     private createHarvestUseCase: CreateHarvestUsecase,
-    private createCropUseCase: CreateCropUsecase,
   ) {}
 
   async execute(data: FarmInput): Promise<Farm | null> {
@@ -32,11 +30,15 @@ export class CreateFarmUseCase {
 
     const farmCreated = await this.farmRepository.createFarm(farm);
 
-    const harvestPromise = this.createHarvestUseCase.execute(data.harvests);
-    const cropPromise = this.createCropUseCase.execute(data.crops);
+    const harvestWithFarmId = data.harvests.map(harvest => {
+      return {
+        ...harvest,
+        farmId: farmCreated!.id,
+      };
+    }) as HarvestInput[];
 
-    await Promise.all([harvestPromise, cropPromise]);
+    await this.createHarvestUseCase.execute(harvestWithFarmId);
 
-    return await this.farmRepository.findByParams(farmCreated)!;
+    return await this.farmRepository.findByParams(farmCreated);
   }
 }

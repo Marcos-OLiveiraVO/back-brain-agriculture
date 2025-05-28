@@ -1,11 +1,8 @@
 import { farm, Prisma, producer } from '@prisma/client';
 import { ProducerMapper } from '@producer/infra/adapters/mapper/producerMapper';
 import { Farm } from 'modules/farm/application/entities/farm';
-
-export interface FarmDomainMapperInput extends farm {
-  Producer?: producer;
-  Harvest?: Prisma.harvestGetPayload<{ include: { Crop: true } }>[];
-}
+import { HarvestDomainMapperInput, HarvestMapper } from './harvestMapper';
+import { FarmDomainMapperInput } from 'modules/farm/application/interfaces/farmRequest';
 
 export class FarmMapper {
   static toDomain(model: FarmDomainMapperInput): Farm {
@@ -21,6 +18,9 @@ export class FarmMapper {
         createdAt: model.createdAt!,
         updatedAt: model.updatedAt!,
         Producer: model.Producer ? ProducerMapper.toDomain(model.Producer) : undefined,
+        Harvest: model.Harvest
+          ? model.Harvest.map(harvest => HarvestMapper.toDomain(harvest as HarvestDomainMapperInput))
+          : undefined,
       },
       model.id,
     );

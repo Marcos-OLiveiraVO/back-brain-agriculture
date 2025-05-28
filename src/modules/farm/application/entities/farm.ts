@@ -66,7 +66,7 @@ export class Farm {
   }
 
   public get arableArea(): Decimal {
-    return this._props.totalArea;
+    return this._props.arableArea;
   }
 
   public set arableArea(arableArea: Decimal) {
@@ -74,7 +74,7 @@ export class Farm {
   }
 
   public get vegetationArea(): Decimal {
-    return this._props.totalArea;
+    return this._props.vegetationArea;
   }
 
   public set vegetationArea(vegetationArea: Decimal) {

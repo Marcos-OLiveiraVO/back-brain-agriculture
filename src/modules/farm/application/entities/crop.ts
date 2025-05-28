@@ -18,7 +18,7 @@ export class Crop {
     return this._id;
   }
 
-  public set id(id: number | undefined) {
+  public set id(id: number) {
     this._id = id;
   }
 

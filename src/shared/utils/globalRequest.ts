@@ -1,5 +1,5 @@
 export interface Area {
-  totalArea: number;
-  arableArea: number;
-  vegetationArea: number;
+  totalArea: string;
+  arableArea: string;
+  vegetationArea: string;
 }
