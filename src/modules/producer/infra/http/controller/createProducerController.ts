@@ -2,8 +2,9 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ProducerDTO } from '../../adapters/dto/producerDTO';
 import { CreateProducerUseCase } from 'modules/producer/application/use-cases/createProducerUsecase';
 import { ProducerViewModel } from '../viewModel/producerViewModel';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('producer')
 @ApiResponse({ status: 409, description: 'Producer already exists' })
 @ApiResponse({ status: 422, description: 'At least one field is required: cpf or cnpj' })
 @Controller('/producer')
