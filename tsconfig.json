@@ -12,7 +12,8 @@
     "baseUrl": "./src",
     "paths": {
       "@shared/*": ["shared/*"],
-      "@producer/*": ["modules/producer/*"]
+      "@producer/*": ["modules/producer/*"],
+      "@farm/*": ["modules/farm/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

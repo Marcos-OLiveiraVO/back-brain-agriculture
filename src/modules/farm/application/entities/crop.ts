@@ -1,6 +1,9 @@
+import { Harvest } from './harvest';
+
 export interface CropProps {
   harvestId: number;
   name: string;
+  Harvest?: Harvest;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -36,6 +39,14 @@ export class Crop {
 
   public set name(name: string) {
     this._props.name = name;
+  }
+
+  public get Harvest(): Harvest | undefined {
+    return this._props.Harvest;
+  }
+
+  public set Harvest(Harvest: Harvest | undefined) {
+    this._props.Harvest = Harvest;
   }
 
   public get createdAt(): Date | undefined {
