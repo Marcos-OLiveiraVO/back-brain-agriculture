@@ -26,9 +26,9 @@ export const FarmEntityMock = new Farm({
   name: 'Farm sunshine',
   city: 'Manaus',
   state: 'Amazonas',
-  totalArea: Decimal(1000.0),
-  arableArea: Decimal(500.0),
-  vegetationArea: Decimal(500.0),
+  totalArea: Decimal(1000),
+  arableArea: Decimal(500),
+  vegetationArea: Decimal(500),
   Harvest: [HarvestEntityMock],
 });
 
@@ -46,9 +46,9 @@ export const FarmBaseWrongMock: FarmInput = {
   name: 'Farm sunshine',
   city: 'Manaus',
   state: 'Amazonas',
-  totalArea: '1000.0',
-  arableArea: '5000.0',
-  vegetationArea: '5000.0',
+  totalArea: '1000',
+  arableArea: '5000',
+  vegetationArea: '5000',
   harvests: [HarvestInputBaseMock],
 };
 
@@ -57,9 +57,9 @@ export const FarmBaseMock: FarmInput = {
   name: 'Farm sunshine',
   city: 'Manaus',
   state: 'Amazonas',
-  totalArea: '1000.0',
-  arableArea: '500.0',
-  vegetationArea: '500.0',
+  totalArea: '1000',
+  arableArea: '500',
+  vegetationArea: '500',
   harvests: [HarvestInputBaseMock],
 };
 

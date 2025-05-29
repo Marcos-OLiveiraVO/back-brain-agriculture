@@ -5,7 +5,7 @@ import { UpdateHarvestUsecase } from '@farm/application/use-cases/updateHarvestU
 import { Harvest } from '@farm/application/entities/harvest';
 import { NotFoundException } from '@nestjs/common';
 
-describe('Create crop use case', () => {
+describe('Update farm use case', () => {
   let farmRepository: FarmRepositoryInMemory;
   let updateHarvest: UpdateHarvestUsecase;
 
