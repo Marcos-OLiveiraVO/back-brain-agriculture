@@ -43,7 +43,6 @@ export class FarmRepositoryInMemory implements IFarmRepository {
       this.Harvest.set(harvestId, newHarvest);
 
       harvest.Crop?.forEach(crop => {
-        console.log(' :cegou');
         const cropId = this.getNextId(this.Crop);
         const newCrop = new Crop({ harvestId: harvestId, name: crop.name }, cropId);
 
@@ -107,7 +106,6 @@ export class FarmRepositoryInMemory implements IFarmRepository {
   async findStatistics(): Promise<GetStatisticsOutput> {
     const farms = [...this.Farm.values()];
     const crops = [...this.Crop.values()];
-    console.log('crops :', crops);
 
     const totalFarms = farms.length;
     const totalHectares = farms.reduce((acc, farm) => acc.plus(farm.totalArea ?? 0), new Decimal(0));
