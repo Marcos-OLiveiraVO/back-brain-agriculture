@@ -3,3 +3,8 @@ export interface Area {
   arableArea: string;
   vegetationArea: string;
 }
+
+export interface DocumentInput {
+  cpf?: string;
+  cnpj?: string;
+}

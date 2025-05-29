@@ -6,11 +6,18 @@ import { CreateProducerController } from './infra/http/controller/createProducer
 import { DatabaseModule } from '@shared/database/database.module';
 import { DeleteProducerController } from './infra/http/controller/deleteProducerController';
 import { DeleteProducerUseCase } from './application/use-cases/deleteProducerUsecase';
+import { UpdateProducerController } from './infra/http/controller/updateProducerController';
+import { UpdateProducerUseCase } from './application/use-cases/updateProducerUsecase';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [CreateProducerUseCase, DeleteProducerUseCase, { provide: IProducerRepository, useClass: ProducerRepository }],
-  controllers: [CreateProducerController, DeleteProducerController],
+  providers: [
+    CreateProducerUseCase,
+    UpdateProducerUseCase,
+    DeleteProducerUseCase,
+    { provide: IProducerRepository, useClass: ProducerRepository },
+  ],
+  controllers: [CreateProducerController, UpdateProducerController, DeleteProducerController],
   exports: [{ provide: IProducerRepository, useClass: ProducerRepository }],
 })
 export class ProducerModule {}

@@ -46,3 +46,6 @@ export class DeleteProducerDTO {
   @IsPositive({ message: 'id must be a positive number' })
   id: number;
 }
+
+export class UpdateProducerDTO extends ProducerDTO {}
+export class FindProducerDTO extends DeleteProducerDTO {}

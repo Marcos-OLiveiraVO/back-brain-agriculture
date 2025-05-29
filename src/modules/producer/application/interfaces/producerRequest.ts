@@ -4,4 +4,10 @@ export interface ProducerInput {
   cpf?: string;
 }
 
-export interface FindProducer extends ProducerInput {}
+export interface FindProducer extends Partial<ProducerInput> {
+  id?: number;
+}
+
+export interface UpdateProducerInput extends ProducerInput {
+  producerId: number;
+}

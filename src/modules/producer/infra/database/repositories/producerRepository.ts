@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ProducerMapper } from '../../adapters/mapper/producerMapper';
 import { Producer } from '@producer/application/entities/producer';
 import { IProducerRepository } from '@producer/application/interfaces/IProducerRepository';
-import { FindProducer } from '@producer/application/interfaces/producerRequest';
+import { FindProducer, UpdateProducerInput } from '@producer/application/interfaces/producerRequest';
 import { PrismaService } from '@shared/database/prismaService';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class ProducerRepository implements IProducerRepository {
   async findByParams(data: FindProducer): Promise<Producer | null> {
     const producer = await this.prisma.producer.findFirst({
       where: {
-        OR: [{ cnpj: data.cnpj }, { cpf: data.cpf }, { name: data.name }],
+        OR: [{ cnpj: data.cnpj }, { cpf: data.cpf }, { name: data.name }, { id: data.id }],
       },
     });
 
@@ -49,6 +49,15 @@ export class ProducerRepository implements IProducerRepository {
     if (!producer) {
       return null;
     }
+
+    return ProducerMapper.toDomain(producer);
+  }
+
+  async updateProducer(data: UpdateProducerInput): Promise<Producer> {
+    const producer = await this.prisma.producer.update({
+      where: { id: data.producerId },
+      data: ProducerMapper.toDatabase(data as unknown as Producer),
+    });
 
     return ProducerMapper.toDomain(producer);
   }

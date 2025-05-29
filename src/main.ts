@@ -19,7 +19,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Brain Agriculture')
-    .setDescription('The Brain Agriculture API')
+    .setDescription(
+      'The Brain Agriculture API, be sure to create one producer before testing the api and some data need to be validated, you can use 4dev to generate data.',
+    )
     .setVersion('1.0')
     .build();
 
