@@ -4,6 +4,8 @@ Todo o projeto pode ser executado localmente utilizando Docker + Docker Compose.
 
 Optei por utilizar conceitos de Arquitetura Limpa e DDD, como desenvolvimento orientado a entidades e regras de negócio bem definidas. O projeto segue firmemente o conceito de modularização.
 
+Toda a validação de documentos é feita com bibliotecas testadas, evitando lógicas manuais. As exceções seguem o padrão do NestJS, lançando HTTP exceptions específicas e mapeadas para cada caso de erro.
+
 Cada módulo é responsável por suas funcionalidades e é isolado dos demais. Deseja adicionar uma nova funcionalidade em producer? Você só precisa alterar o próprio módulo de producer.
 
 ## Importante
