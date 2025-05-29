@@ -1,7 +1,7 @@
 import { Crop } from '@farm/application/entities/crop';
 import { Farm } from '@farm/application/entities/farm';
 import { Harvest } from '@farm/application/entities/harvest';
-import { FarmInput } from '@farm/application/interfaces/farmRequest';
+import { FarmInput, UpdateHarvestInput } from '@farm/application/interfaces/farmRequest';
 import { Decimal } from '@prisma/client/runtime/library';
 
 export const cropEntityMock = new Crop({
@@ -61,4 +61,10 @@ export const FarmBaseMock: FarmInput = {
   arableArea: '500.0',
   vegetationArea: '500.0',
   harvests: [HarvestInputBaseMock],
+};
+
+export const wrongUpdateHarvest: UpdateHarvestInput = {
+  id: 10,
+  year: 2025,
+  month: 1,
 };
