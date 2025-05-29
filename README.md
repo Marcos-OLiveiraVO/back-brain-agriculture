@@ -113,11 +113,12 @@ $ yarn dev
 
 ## Doumentação da api - Swagger
 Realizei a documentação da api toda no swagger, cada rota é seus dados estão mapeados lá, caso necessario use o 4dev, para gerar dados validos.
+A rota de acesso é 'http://localhost:5000/api'
 
 [Screencast from 2025-05-28 19-07-47.webm](https://github.com/user-attachments/assets/5a63e02b-5c8d-408e-b0f5-4fd731930cc4)
 
 ## Rodando os testes automatizados
-Fiz a criação dos testes automatizados, Unitarios, pois acho que são a base, com eles consegui cobir 100% dos casos de uso(que são as regras de negocio)
+Fiz a criação dos testes automatizados, Unitarios, pois acho que são a base, com eles consegui cobrir 100% dos casos de uso(que são as regras de negocio)
 
 ```bash
 $ yarn test:unit
