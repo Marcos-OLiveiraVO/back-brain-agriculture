@@ -17,18 +17,15 @@ export class UpdateProducerUseCase {
 
     ValidateDocument(data);
 
-    const cpfChanged = data.cpf && existingProducer.cpf !== data.cpf;
-    const cnpjChanged = data.cnpj && existingProducer.cnpj !== data.cnpj;
+    const documentChanged = (data.cpf && data.cpf !== existingProducer.cpf) || (data.cnpj && data.cnpj !== existingProducer.cnpj);
 
-    if (cpfChanged || cnpjChanged) {
+    if (documentChanged) {
       const otherProducer = await this.producerRepository.findByParams({
         cpf: data.cpf,
         cnpj: data.cnpj,
       });
 
-      const isSameProducer = otherProducer?.id === data.producerId;
-
-      if (otherProducer && !isSameProducer) {
+      if (otherProducer && otherProducer.id !== data.producerId) {
         throw new UnprocessableEntityException('Another producer already uses this CPF or CNPJ');
       }
     }

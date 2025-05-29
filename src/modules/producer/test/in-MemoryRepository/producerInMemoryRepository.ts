@@ -9,10 +9,8 @@ export class ProducerInMemoryRepository implements IProducerRepository {
     const ids = [...this.producers.keys()];
     const id = ids.length > 0 ? Math.max(...ids) + 1 : 1;
 
-    const dataWithId = { ...data, _id: id } as Producer;
-    const producer = this.producers.set(id, dataWithId).get(id);
-
-    return producer as Producer;
+    data.id = id;
+    return this.producers.set(id, data).get(id)!;
   }
 
   async updateProducer(data: UpdateProducerInput): Promise<Producer> {
