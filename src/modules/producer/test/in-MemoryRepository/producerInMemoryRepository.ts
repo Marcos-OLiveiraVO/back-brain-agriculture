@@ -1,6 +1,6 @@
-import { Producer } from 'modules/producer/application/entities/producer';
-import { IProducerRepository } from 'modules/producer/application/interfaces/IProducerRepository';
-import { FindProducer, UpdateProducerInput } from 'modules/producer/application/interfaces/producerRequest';
+import { Producer } from '@producer/application/entities/producer';
+import { IProducerRepository } from '@producer/application/interfaces/IProducerRepository';
+import { FindProducer, UpdateProducerInput } from '@producer/application/interfaces/producerRequest';
 
 export class ProducerInMemoryRepository implements IProducerRepository {
   producers = new Map<number, Producer>();
@@ -9,7 +9,8 @@ export class ProducerInMemoryRepository implements IProducerRepository {
     const ids = [...this.producers.keys()];
     const id = ids.length > 0 ? Math.max(...ids) + 1 : 1;
 
-    const producer = this.producers.set(id, data).get(id);
+    const dataWithId = { ...data, _id: id } as Producer;
+    const producer = this.producers.set(id, dataWithId).get(id);
 
     return producer as Producer;
   }
