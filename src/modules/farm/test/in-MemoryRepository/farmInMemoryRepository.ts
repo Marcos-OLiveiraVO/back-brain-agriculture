@@ -32,8 +32,8 @@ export class FarmRepositoryInMemory implements IFarmRepository {
 
       const newHarvest = {
         ...harvest,
+        _id: harvestId,
         id: harvestId,
-        Crop: [],
       } as unknown as Harvest;
 
       this.Harvest.set(harvestId, newHarvest);
