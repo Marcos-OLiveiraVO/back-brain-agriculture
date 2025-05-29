@@ -1,6 +1,7 @@
 import { Crop } from '@farm/application/entities/crop';
 import { Farm } from '@farm/application/entities/farm';
 import { Harvest } from '@farm/application/entities/harvest';
+import { FarmInput } from '@farm/application/interfaces/farmRequest';
 import { Decimal } from '@prisma/client/runtime/library';
 
 export const cropEntityMock = new Crop({
@@ -38,4 +39,26 @@ export const HarvestInputBaseMock = {
     { name: 'Soja', harvestId: 1 },
     { name: 'Milho', harvestId: 1 },
   ],
+};
+
+export const FarmBaseWrongMock: FarmInput = {
+  producerId: 1,
+  name: 'Farm sunshine',
+  city: 'Manaus',
+  state: 'Amazonas',
+  totalArea: '1000.0',
+  arableArea: '5000.0',
+  vegetationArea: '5000.0',
+  harvests: [HarvestInputBaseMock],
+};
+
+export const FarmBaseMock: FarmInput = {
+  producerId: 1,
+  name: 'Farm sunshine',
+  city: 'Manaus',
+  state: 'Amazonas',
+  totalArea: '1000.0',
+  arableArea: '500.0',
+  vegetationArea: '500.0',
+  harvests: [HarvestInputBaseMock],
 };
