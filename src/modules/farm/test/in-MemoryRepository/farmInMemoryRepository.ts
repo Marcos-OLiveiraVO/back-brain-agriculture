@@ -1,5 +1,6 @@
 import { Crop } from '@farm/application/entities/crop';
 import { Harvest } from '@farm/application/entities/harvest';
+import { Decimal } from '@prisma/client/runtime/library';
 import { Farm } from 'modules/farm/application/entities/farm';
 import { IFarmRepository } from 'modules/farm/application/interfaces/IFarmRepository';
 import {
@@ -42,6 +43,7 @@ export class FarmRepositoryInMemory implements IFarmRepository {
       this.Harvest.set(harvestId, newHarvest);
 
       harvest.Crop?.forEach(crop => {
+        console.log(' :cegou');
         const cropId = this.getNextId(this.Crop);
         const newCrop = new Crop({ harvestId: harvestId, name: crop.name }, cropId);
 
@@ -102,8 +104,41 @@ export class FarmRepositoryInMemory implements IFarmRepository {
     return crops.map(crop => crop.name);
   }
 
-  findStatistics(): Promise<GetStatisticsOutput> {
-    throw new Error('Method not implemented.');
+  async findStatistics(): Promise<GetStatisticsOutput> {
+    const farms = [...this.Farm.values()];
+    const crops = [...this.Crop.values()];
+    console.log('crops :', crops);
+
+    const totalFarms = farms.length;
+    const totalHectares = farms.reduce((acc, farm) => acc.plus(farm.totalArea ?? 0), new Decimal(0));
+    const totalArable = farms.reduce((acc, farm) => acc.plus(farm.arableArea ?? 0), new Decimal(0));
+    const totalVegetation = farms.reduce((acc, farm) => acc.plus(farm.vegetationArea ?? 0), new Decimal(0));
+
+    const farmsByStateMap = new Map<string, number>();
+    for (const farm of farms) {
+      const current = farmsByStateMap.get(farm.state) ?? 0;
+      farmsByStateMap.set(farm.state, current + 1);
+    }
+
+    const cropsByNameMap = new Map<string, number>();
+    for (const crop of crops) {
+      const current = cropsByNameMap.get(crop.name) ?? 0;
+      cropsByNameMap.set(crop.name, current + 1);
+    }
+
+    const byState = [...farmsByStateMap.entries()].map(([state, total]) => ({ state, total }));
+    const byCrop = [...cropsByNameMap.entries()].map(([crop, total]) => ({ crop, total }));
+
+    return {
+      totalFarms,
+      totalHectares,
+      byState,
+      byCrop,
+      bySoilUsage: {
+        totalArable,
+        totalVegetation,
+      },
+    };
   }
 
   async deleteFarm(farmId: number): Promise<void> {

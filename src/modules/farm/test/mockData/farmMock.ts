@@ -32,6 +32,17 @@ export const FarmEntityMock = new Farm({
   Harvest: [HarvestEntityMock],
 });
 
+export const FarmEntityMockTwo = new Farm({
+  producerId: 1,
+  name: 'Farm ACT',
+  city: 'São paulo',
+  state: 'São paulo',
+  totalArea: Decimal(2000),
+  arableArea: Decimal(1500),
+  vegetationArea: Decimal(500),
+  Harvest: [HarvestEntityMock],
+});
+
 export const HarvestInputBaseMock = {
   year: 2024,
   month: 10,
