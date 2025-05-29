@@ -19,6 +19,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Brain Agriculture')
+    .setExternalDoc('4Dev', 'https://www.4devs.com.br/gerador_de_cnpj')
     .setDescription(
       'The Brain Agriculture API, be sure to create one producer before testing the api and some data need to be validated, you can use 4dev to generate data.',
     )
