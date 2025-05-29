@@ -63,6 +63,7 @@ Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente,
 ```
 
 **Todas as funcionalidades foram separadas em suas respectivas issues e branches, de forma organizada.**
+
 ![alt text](image-2.png)
 
 ## Demais Funcionalidades implementadas:
@@ -89,10 +90,12 @@ Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente,
     - 13 - **Remover** a safra da propriedade rural.
 
 ## Tabelas planejadas no miro e implementadas:
+Todas as tabelas no miro, foram implementadas via schema do prisma e com devido historico de migrations.
 
 ![alt text](image.png)
 
 ## Fluxo de regras de negocios e casos de uso que planejei no miro:
+Fluxo que planei no miro, para ser implementado
 
 ![alt text](image-1.png)
 
