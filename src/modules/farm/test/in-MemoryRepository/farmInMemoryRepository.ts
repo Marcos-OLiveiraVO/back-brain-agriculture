@@ -1,6 +1,6 @@
-import { Crop } from 'modules/farm/application/entities/crop';
+import { Crop } from '@farm/application/entities/crop';
+import { Harvest } from '@farm/application/entities/harvest';
 import { Farm } from 'modules/farm/application/entities/farm';
-import { Harvest } from 'modules/farm/application/entities/harvest';
 import { IFarmRepository } from 'modules/farm/application/interfaces/IFarmRepository';
 import {
   UpdateFarmRepositoryInput,
@@ -29,27 +29,24 @@ export class FarmRepositoryInMemory implements IFarmRepository {
   async createHarvest(data: Harvest[]): Promise<Harvest[]> {
     const harvests = data.map(harvest => {
       const harvestId = this.getNextId(this.Harvest);
-
-      const newHarvest = {
-        ...harvest,
-        _id: harvestId,
-        id: harvestId,
-      } as unknown as Harvest;
+      const newHarvest = new Harvest(
+        {
+          Crop: [],
+          farmId: harvest.farmId,
+          month: harvest.month,
+          year: harvest.year,
+        },
+        harvestId,
+      );
 
       this.Harvest.set(harvestId, newHarvest);
-      this.Crop.forEach(crop => {
-        if (crop.harvestId === harvestId) {
-          const cropId = this.getNextId(this.Crop);
 
-          const newCrop = {
-            ...crop,
-            id: cropId,
-            harvestId: harvestId,
-          } as unknown as Crop;
+      harvest.Crop?.forEach(crop => {
+        const cropId = this.getNextId(this.Crop);
+        const newCrop = new Crop({ harvestId: harvestId, name: crop.name }, cropId);
 
-          this.Crop.set(cropId, newCrop);
-          newHarvest.Crop?.push(newCrop);
-        }
+        this.Crop.set(cropId, newCrop);
+        newHarvest.Crop?.push(newCrop);
       });
 
       return newHarvest;
