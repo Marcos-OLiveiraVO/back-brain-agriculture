@@ -3,10 +3,18 @@ import { cnpj, cpf } from 'cpf-cnpj-validator';
 import { DocumentInput } from '../globalRequest';
 
 export function ValidateDocument(data: DocumentInput) {
-  const isCpfValid = data.cpf && cpf.isValid(data.cpf);
-  const isCnpjValid = data.cnpj && cnpj.isValid(data.cnpj);
+  const hasCpf = !!data.cpf;
+  const hasCnpj = !!data.cnpj;
 
-  if (!isCpfValid && !isCnpjValid) {
-    throw new UnprocessableEntityException('You must provide a valid CPF or CNPJ');
+  if (!hasCpf && !hasCnpj) {
+    throw new UnprocessableEntityException('You must provide at least a CPF or a CNPJ');
+  }
+
+  if (hasCpf && !cpf.isValid(data.cpf!)) {
+    throw new UnprocessableEntityException('Invalid CPF');
+  }
+
+  if (hasCnpj && !cnpj.isValid(data.cnpj!)) {
+    throw new UnprocessableEntityException('Invalid CNPJ');
   }
 }

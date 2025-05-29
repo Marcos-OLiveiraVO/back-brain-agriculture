@@ -3,7 +3,7 @@ import { compilerOptions } from './tsconfig.json';
 
 export default {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-    prefix: '<rootDir>/',
+    prefix: '<rootDir>/src/',
   }),
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',

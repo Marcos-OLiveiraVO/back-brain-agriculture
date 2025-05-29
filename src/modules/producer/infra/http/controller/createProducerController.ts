@@ -5,7 +5,10 @@ import { ProducerViewModel } from '../viewModel/producerViewModel';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Producer')
-@ApiResponse({ status: 409, description: 'Producer already exists' })
+@ApiResponse({ status: 409, description: 'Producer already exists with this cnpj or cpf exists' })
+@ApiResponse({ status: 422, description: 'You must provide at least a CPF or a CNPJ' })
+@ApiResponse({ status: 422, description: 'Invalid CPF' })
+@ApiResponse({ status: 422, description: 'Invalid CNPJ' })
 @ApiResponse({ status: 422, description: 'At least one field is required: cpf or cnpj' })
 @Controller('/producer')
 export class CreateProducerController {

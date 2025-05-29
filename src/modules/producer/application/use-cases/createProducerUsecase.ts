@@ -1,25 +1,20 @@
 import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { Producer } from '../entities/producer';
 import { IProducerRepository } from '../interfaces/IProducerRepository';
 import { ProducerInput } from '../interfaces/producerRequest';
+import { ValidateDocument } from '@shared/utils/functions/validateDocument';
 
 @Injectable()
 export class CreateProducerUseCase {
   constructor(private producerRepository: IProducerRepository) {}
 
   async execute(data: ProducerInput): Promise<Producer> {
-    const isCpfValid = data.cpf && cpf.isValid(data.cpf);
-    const isCnpjValid = data.cnpj && cnpj.isValid(data.cnpj);
-
-    if (!isCpfValid && !isCnpjValid) {
-      throw new UnprocessableEntityException('You must provide a valid CPF or CNPJ');
-    }
+    ValidateDocument(data);
 
     const producerExist = await this.producerRepository.findByParams(data);
 
     if (producerExist) {
-      throw new ConflictException('Producer already exists');
+      throw new ConflictException('Producer already exists with this cnpj or cpf exists');
     }
 
     const producer = new Producer(data);
