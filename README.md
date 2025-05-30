@@ -113,7 +113,8 @@ O projeto usa:
 
 
 ## Rodando o projeto
-Voce pode rodar o projeto usando o comando abaixo, além disso se certifica de criar o arquivo '**.env.dev**' e '**.env**' ambos contendo a url do banco nesse formato: DATABASE_URL="postgresql://postgres:user@db:senha/brain-agriculture".
+Voce pode rodar o projeto usando o comando abaixo, além disso se certifica de criar o arquivo '**.env.dev**' e '**.env**' ambos contendo a url do banco nesse formato: 
+```DATABASE_URL="postgresql://postgres:user@db:senha/brain-agriculture"```
 
 As credenciais da url deve ser a mesma presente no **docker--compose-.dev.yml**. 
 Por via das duvidas deixei o .env.dev no versionamento.
