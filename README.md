@@ -95,7 +95,7 @@ Todas as tabelas no miro, foram implementadas via schema do prisma e com devido 
 ![alt text](image.png)
 
 ## Fluxo de regras de negocios e casos de uso que planejei no miro:
-Fluxo que planei no miro, para ser implementado
+Fluxo que planejei no miro, para ser implementado.
 
 ![alt text](image-1.png)
 
@@ -106,6 +106,11 @@ Execute o seguinte comando para instalar as dependências:
 ```bash
 $ yarn
 ```
+
+O projeto usa:
+- **Node.js** - v22.14.0 
+- **Yarn** - v1.22.22
+
 
 ## Rodando o projeto
 Voce pode rodar o projeto usando o comando abaixo, além disso se certifica de criar o arquivo '**.env.dev**' e '**.env**' ambos contendo a url do banco nesse formato: DATABASE_URL="postgresql://postgres:user@db:senha/brain-agriculture".
@@ -124,17 +129,16 @@ $ yarn db:migrate
 ```
 
 
-
 [Screencast from 2025-05-28 19-04-09.webm](https://github.com/user-attachments/assets/e597660f-9aa2-41c3-ab56-4034e4cd8d35)
 
 ## Doumentação da api - Swagger
-Realizei a documentação da api toda no swagger, cada rota é seus dados estão mapeados lá, caso necessario use o 4dev, para gerar dados validos.
+Realizei a documentação da api toda no swagger, cada rota e seus dados estão mapeados lá, caso necessario use o 4dev, para gerar dados validos.
 A rota de acesso é 'http://localhost:5000/api'
 
 [Screencast from 2025-05-28 19-07-47.webm](https://github.com/user-attachments/assets/5a63e02b-5c8d-408e-b0f5-4fd731930cc4)
 
 ## Rodando os testes automatizados
-Fiz a criação dos testes automatizados, Unitarios, pois acho que são a base, com eles consegui cobrir 100% dos casos de uso(que são as regras de negocio).
+Fiz a criação dos testes automatizados, unitarios, pois acho que são a base, com eles consegui cobrir 100% dos casos de uso(que são as regras de negocio).
 
 ```bash
 $ yarn test:unit
