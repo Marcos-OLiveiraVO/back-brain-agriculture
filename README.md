@@ -117,6 +117,14 @@ Por via das duvidas deixei o .env.dev no versionamento.
 $ yarn dev
 ```
 
+Além disso uma vez que o docker e o banco esteja rodando, possivelmente irá ser necessario que voce aplique as migrations, para que as tabelas sejam criadas, para isso rode o seguinte comando:
+
+```bash
+$ yarn db:migrate
+```
+
+
+
 [Screencast from 2025-05-28 19-04-09.webm](https://github.com/user-attachments/assets/e597660f-9aa2-41c3-ab56-4034e4cd8d35)
 
 ## Doumentação da api - Swagger
@@ -126,7 +134,7 @@ A rota de acesso é 'http://localhost:5000/api'
 [Screencast from 2025-05-28 19-07-47.webm](https://github.com/user-attachments/assets/5a63e02b-5c8d-408e-b0f5-4fd731930cc4)
 
 ## Rodando os testes automatizados
-Fiz a criação dos testes automatizados, Unitarios, pois acho que são a base, com eles consegui cobrir 100% dos casos de uso(que são as regras de negocio)
+Fiz a criação dos testes automatizados, Unitarios, pois acho que são a base, com eles consegui cobrir 100% dos casos de uso(que são as regras de negocio).
 
 ```bash
 $ yarn test:unit
