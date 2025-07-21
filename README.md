@@ -1,47 +1,46 @@
-## Descrição
-Repositório referente ao projeto Brain Agriculture.
-Todo o projeto pode ser executado localmente utilizando Docker + Docker Compose.
+## Description
+Repository for the Brain Agriculture project.
+The entire project can be run locally using Docker + Docker Compose.
 
-Optei por utilizar conceitos de Arquitetura Limpa e DDD, como desenvolvimento orientado a entidades e regras de negócio bem definidas. O projeto segue firmemente o conceito de modularização.
+I chose to use Clean Architecture and DDD principles, such as entity-driven development and well-defined business rules. The project follows a strong modular structure.
 
-Toda a validação de documentos é feita com bibliotecas testadas, evitando lógicas manuais. As exceções seguem o padrão do NestJS, lançando HTTP exceptions específicas e mapeadas para cada caso de erro.
+All document validations are handled using well-tested libraries, avoiding manual logic. Exceptions follow the NestJS standard, throwing specific and mapped HTTP exceptions for each error case.
 
-Cada módulo é responsável por suas funcionalidades e é isolado dos demais. Deseja adicionar uma nova funcionalidade em producer? Você só precisa alterar o próprio módulo de producer.
+Each module is responsible for its own functionality and is isolated from the others. Want to add a new feature in producer? You only need to modify the producer module.
+## Important
 
-## Importante
-
-A descrição do desafio era um pouco ambígua.
-O que deu a entender foi que seria necessário um único endpoint com o seguinte JSON:
+The challenge description was somewhat ambiguous.
+What it seemed to ask for was a single endpoint with a JSON like this:
 
 ```json
-CPF ou CNPJ
-Nome do produtor
-Nome da fazenda (propriedade)
-Cidade
-Estado
-Área total da fazenda (em hectares)
-Área agricultável (em hectares)
-Área de vegetação (em hectares)
-Safras (ex: Safra 2021, Safra 2022)
-Culturas plantadas (ex.: Soja na Safra 2021, Milho na Safra 2021, Café na Safra 2022)
+CPF or CNPJ
+Producer name
+Farm name (property)
+City
+State
+Total farm area (in hectares)
+Farmable area (in hectares)
+Vegetation area (in hectares)
+Harvests (e.g., 2021 Harvest, 2022 Harvest)
+Crops planted (e.g., Soybeans in 2021, Corn in 2021, Coffee in 2022)
 ```
 
-No entanto, optei por uma abordagem modularizada.
+However, I chose a modular approach.
 
-### Estrutura modular
+### Modular structure
 
-Dividi o projeto em módulos (`producer`, `farm`, etc) com seus próprios casos de uso, entidades e controllers. Essa decisão foi tomada para:
+The project is divided into modules (producer, farm, etc.) with their own use cases, entities, and controllers. This decision was made to:
 
-- Garantir uma separação clara de responsabilidades.
-- Facilitar a manutenção e a escalabilidade do projeto.
-- Aumentar a coesão interna e diminuir o acoplamento entre funcionalidades.
+- Ensure clear separation of concerns.
+- Make the project easier to maintain and scale.
+- Increase internal cohesion and reduce coupling between features.
 
-Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente, se você deseja adicionar a funcionalidade "X" no módulo "Y", os demais módulos não precisam saber da implementação.
+With this structure, the project is fully scalable. As mentioned earlier, if you want to add feature "X" to module "Y", the other modules don't need to know about it.
 
-## Estrutura de Pastas dos Módulos
+## Module Folder Structure
 
 ```
-└── NomeDoMódulo
+└── ModuleName
     └── application
         └── entities
         └── use-cases
@@ -62,84 +61,88 @@ Com essa estrutura, o projeto é totalmente escalável. Como dito anteriormente,
         └── mockData
 ```
 
-**Todas as funcionalidades foram separadas em suas respectivas issues e branches, de forma organizada.**
+**All features were separated into their respective issues and branches in an organized way.**
 
 ![alt text](image-2.png)
 
-## Demais Funcionalidades implementadas:
+## Other Features Implemented:
 
-- 1 - **Swagger** - Integração com swagger para documentação da api e rotas.
-- 2 - **Docker** - Integração com docker rodando em ambiente local
-- 3 - **PostgreSQL** - Utilização do banco de dados postgresql
-- 4 - **ORM** - Utilização do ORM prisma
-- 5 - **Testes** - Criação de testes automatizados (unitario)
-- 6 - **Dados Mockados** - Uso de dados mockados para os testes.
+- 1 - Swagger – Full API documentation with Swagger.
+- 2 - Docker – Docker integration running locally.
+- 3 - PostgreSQL – PostgreSQL as the database.
+- 4 - ORM – Prisma as the ORM.
+- 5 - Tests – Automated unit tests.
+- 6 - Mock Data – Usage of mocked data for testing.
 
-  Além dos casos de uso:
-    - 1 - **Criar** producer.
-    - 2 - **Deletar** producer.
-    - 3 - **Atualizar** producer.
-    - 4 - **Criar** propriedade rural.
-    - 5 - **Criar** safra para a propriedade rural.
-    - 6 - **Criar** criar cultura plantavel para a safra.
-    - 7 - **Buscar** estatisticas para o dashboard.
-    - 8 - **Atualizar** propriedade rural.
-    - 9 - **Atualizar** safra
-    - 11 - **Remover** cultura plantavel da safra
-    - 12 - **Remover** a propriedade rural do produtor.
-    - 13 - **Remover** a safra da propriedade rural.
+Use Cases:
 
-## Tabelas planejadas no miro e implementadas:
-Todas as tabelas no miro, foram implementadas via schema do prisma e com devido historico de migrations.
+- Create producer
+- Delete producer
+- Update producer
+- Create farm
+- Create harvest for the farm
+- Create crop for a harvest
+- Fetch dashboard statistics
+- Update farm
+- Update harvest
+- Remove crop from harvest
+- Remove farm from producer
+- Remove harvest from farm
+
+## Tables Planned and Implemented:
+All tables were planned in Miro and implemented using Prisma schema, with proper migration history.
 
 ![alt text](image.png)
 
-## Fluxo de regras de negocios e casos de uso que planejei no miro:
-Fluxo que planejei no miro, para ser implementado.
+## Planned Business Rules and Use Cases in Miro:
+Flowcharts and rules planned visually in Miro before implementation.
 
 ![alt text](image-1.png)
 
-## Setup do projeto
+## Project setup
 
-Execute o seguinte comando para instalar as dependências:
+Run the following command to install dependencies:
 
 ```bash
 $ yarn
 ```
 
-O projeto usa:
+The project use:
 - **Node.js** - v22.14.0 
 - **Yarn** - v1.22.22
 
 
-## Rodando o projeto
-Voce pode rodar o projeto usando o comando abaixo, além disso se certifica de criar o arquivo '**.env.dev**' e '**.env**' ambos contendo a url do banco nesse formato: 
+## Running the project:
+You can run the project with the command below. Make sure to create the **.env.dev** and **.env** files containing the database URL in this format:
+
+
 ```DATABASE_URL="postgresql://postgres:user@db:senha/brain-agriculture"```
 
-As credenciais da url deve ser a mesma presente no **docker--compose-.dev.yml**. 
-Por via das duvidas deixei o .env.dev no versionamento.
+Make sure the credentials match those in the **docker-compose.dev.yml**.
+To avoid confusion, I included the **.env.dev** file in version control.
 
 ```bash
 $ yarn dev
 ```
 
-Além disso uma vez que o docker e o banco esteja rodando, possivelmente irá ser necessario que voce aplique as migrations, para que as tabelas sejam criadas, para isso rode o seguinte comando:
+Once Docker and the database are running, you’ll probably need to run the migrations to create the tables:
 
 ```bash
 $ yarn db:migrate
 ```
 
-
 [Screencast from 2025-05-28 19-04-09.webm](https://github.com/user-attachments/assets/e597660f-9aa2-41c3-ab56-4034e4cd8d35)
 
-## Doumentação da api - Swagger
-Realizei a documentação da api toda no swagger, cada rota e seus dados estão mapeados lá, caso necessario use o 4dev, para gerar dados validos.
-A rota de acesso é 'http://localhost:5000/api'
+## Api documentation - Swagger
+Full API documentation is available via Swagger. Every route and its expected data is mapped there.
+Use tools like 4devs to generate valid data if needed.
+
+Access it at: **http://localhost:5000/api**
 
 [Screencast from 2025-05-28 19-07-47.webm](https://github.com/user-attachments/assets/5a63e02b-5c8d-408e-b0f5-4fd731930cc4)
 
-## Rodando os testes automatizados
-Fiz a criação dos testes automatizados, unitarios, pois acho que são a base, com eles consegui cobrir 100% dos casos de uso(que são as regras de negocio).
+## Running automated testes:
+Unit tests were written to cover the business rules (use cases), achieving 100% coverage of them.
 
 ```bash
 $ yarn test:unit
@@ -149,10 +152,10 @@ $ yarn test:unit
 
 ## Miro
 
-Antes de escrever qualquer linha de código, parei para planejar a aplicação no Miro, ferramenta que costumo usar para estruturar funcionalidades e fluxos de forma visual.
+Before writing any code, I took time to plan the application using Miro, a tool I regularly use to structure flows and features visually.
 
-O link pode ser encontrado aqui: [Miro](https://miro.com/welcomeonboard/UTJlK0NlOE4vUWtyTTl6NmFIaVdmb0djY3gyUllrMW9SQzhBVkdZemhsZWs4T0o1QXRkMzdndEhnNnVTYmhqZTV6ckJ3eW9HNUxYU0ZWL3ZneFhBd2xMbWY1OXI3SFkwS253YlF4VDZtN0NTblN3cHpiMUxDZzhzRmVjbFd4YldyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=258833236902)
+Link: [Miro](https://miro.com/welcomeonboard/UTJlK0NlOE4vUWtyTTl6NmFIaVdmb0djY3gyUllrMW9SQzhBVkdZemhsZWs4T0o1QXRkMzdndEhnNnVTYmhqZTV6ckJ3eW9HNUxYU0ZWL3ZneFhBd2xMbWY1OXI3SFkwS253YlF4VDZtN0NTblN3cHpiMUxDZzhzRmVjbFd4YldyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=258833236902)
 
-## Autor do projeto
+## Project author:
 
 - Author - [Marcos Oliveira](https://www.linkedin.com/in/marcos-oliveiraaa/)
